@@ -456,7 +456,7 @@ class oceanex (Exchange):
             account['used'] = self.safe_float(balance, 'locked')
             result[code] = account
         return self.parse_balance(result)
-
+    # Amount to precision gave me 0 so editing here make sure you precision before making order
     def create_order(self, symbol, type, side, amount, price=None, params={}):
         if type != 'limit':
             raise InvalidOrder(self.id + ' createOrder supports `limit` orders only.')
@@ -466,7 +466,7 @@ class oceanex (Exchange):
             'market': market['id'],
             'side': side,
             'ord_type': type,
-            'volume': self.amount_to_precision(symbol, amount),
+            'volume': amount,
             'price': self.price_to_precision(symbol, price),
         }
         response = self.privatePostOrders(self.extend(request, params))
